@@ -3,7 +3,7 @@ use actix_web::{
     body::BoxBody, http::header::ContentType, get, App, HttpResponse, Responder, HttpServer, HttpRequest};
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize,Deserialize,PartialEq,Debug)]
+#[derive(Serialize, Deserialize, PartialEq, Debug)]
 struct User {
     name: String,
     age: u64,
@@ -19,7 +19,7 @@ impl Responder for User {
 }
 
 #[get("/{id}")]
-async fn hello(path : web::Path<u64>) -> impl Responder {
+async fn hello(path: web::Path<u64>) -> impl Responder {
     User { name: String::from("teddy"), age: path.into_inner() }
 }
 
@@ -37,8 +37,8 @@ mod tests {
             .insert_header(ContentType::json())
             .uri("/321")
             .to_request();
-        let resp:User = test::call_and_read_body_json(&app, req).await;
-        assert_eq!(resp, User{ name: "teddy".to_string(), age: 321 })
+        let resp: User = test::call_and_read_body_json(&app, req).await;
+        assert_eq!(resp, User { name: "teddy".to_string(), age: 321 })
     }
 }
 
